@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>新日檢完勝N1文法 第一週</title>
+<style>
+:root{
+  --bg:#f6f4ef; --card:#ffffff; --ink:#26231f; --muted:#6d675e; --line:#e4dfd5;
+  --accent:#b23a48; --accent-soft:#f7e6e8; --tab:#ffffff; --formula:#fbf3dc; --formula-ink:#5a4310;
+  --ok:#2b7a4b; --bad:#b23a48; --shadow:0 1px 3px rgba(40,30,20,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#17161a; --card:#212026; --ink:#ece8e1; --muted:#a39d92; --line:#34323a;
+    --accent:#ee7a88; --accent-soft:#3a2428; --tab:#212026; --formula:#322c18; --formula-ink:#f1d98c;
+    --ok:#6fcf97; --bad:#ee7a88; --shadow:none;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Noto Sans JP","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  line-height:1.7;font-size:16px}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 48px}
+.top{padding:28px 0 12px}
+.top h1{margin:0;font-size:1.55rem;letter-spacing:.02em}
+.top p{margin:4px 0 0;color:var(--muted);font-size:.92rem}
+.toolbar{position:sticky;top:0;z-index:10;background:var(--bg);padding:10px 0 10px;border-bottom:1px solid var(--line)}
+.tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 4px;border:1px solid var(--line);
+  border-radius:10px;background:var(--tab);color:var(--ink);text-decoration:none;text-align:center;min-height:58px}
+.tab b{font-size:.95rem}
+.tab span{font-size:.7rem;color:var(--muted);line-height:1.25}
+.tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab.on span{color:#ffe9ec}
+.speed{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:.82rem;color:var(--muted)}
+.speed button{border:1px solid var(--line);background:var(--tab);color:var(--ink);padding:3px 10px;border-radius:999px;cursor:pointer;font:inherit}
+.speed button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.notice{display:none;margin-top:8px;padding:6px 10px;border-radius:8px;background:var(--accent-soft);color:var(--accent);font-size:.82rem}
+
+.day{display:none;padding-top:20px}
+.day.show{display:block}
+.day-head{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+.day-badge{flex:none;background:var(--ink);color:var(--bg);font-weight:700;font-size:1.05rem;padding:14px 12px;border-radius:12px;writing-mode:horizontal-tb}
+.day-head h2{margin:0;font-size:1.5rem;line-height:1.3}
+.sub{margin:2px 0 0;color:var(--muted);font-size:.88rem}
+.mini-index{list-style:none;margin:0 0 18px;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9rem}
+.mini-index a{color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--muted)}
+.mini-index a:hover{color:var(--accent)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 8px;margin-bottom:18px;box-shadow:var(--shadow);scroll-margin-top:150px}
+.card h3{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px;font-size:1.28rem;line-height:1.4}
+.no{color:var(--accent);font-size:1.3rem}
+.tag{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid var(--accent);color:var(--accent);white-space:nowrap}
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.lab{font-weight:700;font-size:.88rem;color:var(--accent);line-height:1.4}
+.lab small{font-weight:400;color:var(--muted);font-size:.74rem}
+.val ul{margin:0;padding-left:1.2em}
+.val li{margin:2px 0}
+.formula{display:inline-block;margin:2px 8px 4px 0;padding:3px 10px;border-radius:8px;background:var(--formula);color:var(--formula-ink);font-weight:600;
+  font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic","Noto Sans TC",sans-serif}
+.bad{color:var(--bad)} .ok{color:var(--ok)}
+.exs{padding:12px 0 6px}
+.exs-title{font-weight:700;font-size:.88rem;color:var(--accent);margin-bottom:6px}
+.ex{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-top:1px dashed var(--line)}
+.ex:first-of-type{border-top:0}
+.exn{flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:.82rem;display:flex;align-items:center;justify-content:center;margin-top:4px}
+.exb{flex:1;min-width:0}
+.exlabel{display:inline-block;font-size:.72rem;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:0 6px;margin-bottom:2px}
+.jp{font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic","Noto Sans TC",sans-serif;font-size:1.12rem;line-height:1.9}
+.jp u{text-decoration-line:underline;text-decoration-thickness:2.5px;text-underline-offset:5px;text-decoration-color:var(--accent);font-weight:700}
+.zh{color:var(--muted);font-size:.92rem;margin-top:2px}
+.spk{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--tab);color:var(--accent);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.spk:hover{background:var(--accent-soft)}
+.spk.playing{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pager{display:flex;justify-content:space-between;margin-top:8px}
+.nav-btn{display:inline-block;padding:10px 18px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);text-decoration:none;font-weight:600}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent)}
+.foot{margin-top:28px;color:var(--muted);font-size:.78rem;text-align:center}
+
+@media (max-width:600px){
+  .tabs{grid-template-columns:repeat(3,1fr)}
+  .row{grid-template-columns:1fr;gap:2px}
+  .lab br{display:none} .lab small{margin-left:6px}
+  .day-badge{padding:10px}
+  .day-head h2{font-size:1.25rem}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .toolbar,.pager,.spk,.mini-index,.notice{display:none!important}
+  .day{display:block!important;break-before:page;padding-top:0}
+  .day:first-of-type{break-before:auto}
+  .card{break-inside:avoid;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>新日檢完勝N1文法　第一週</h1>
+    <p>1日目〜6日目　每日 4 個句型：文法結構／中文意思・語感／接續要點／例句（含朗讀）</p>
+  </div>
+  <div class="toolbar">
+    <nav class="tabs"><a href="#d1" class="tab" data-tab="1"><b>一日目</b><span>感謝こそすれ</span></a><a href="#d2" class="tab" data-tab="2"><b>二日目</b><span>できるものとして</span></a><a href="#d3" class="tab" data-tab="3"><b>三日目</b><span>彼のことだから</span></a><a href="#d4" class="tab" data-tab="4"><b>四日目</b><span>私に言わせれば</span></a><a href="#d5" class="tab" data-tab="5"><b>五日目</b><span>難しいとみると…</span></a><a href="#d6" class="tab" data-tab="6"><b>六日目</b><span>何回読んだところで…</span></a></nav>
+    <div class="speed">朗讀語速：
+      <button type="button" data-rate="1" class="on">正常</button>
+      <button type="button" data-rate="0.7">慢速</button>
+    </div>
+    <div class="notice" id="notice">此瀏覽器或裝置沒有可用的日語語音，請在系統設定中安裝日語語音，或改用 Chrome／Edge／Safari 開啟。</div>
+  </div>
+<section class="day" id="d1" data-day="1">
+<header class="day-head"><div class="day-badge">一日目</div><div><h2>感謝こそすれ</h2><p class="sub">強調表現「こそ」系列　·　共 4 個句型</p></div></header>
+<ol class="mini-index">
+<li><a href="#d1-1">① 親になってこそ</a></li>
+<li><a href="#d1-2">② 苦労こそあれ</a></li>
+<li><a href="#d1-3">③ 感謝こそすれ</a></li>
+<li><a href="#d1-4">④ 見た目こそ悪いが…</a></li>
+</ol>
+<article class="card" id="d1-1">
+<h3><span class="no">①</span><span class="pt">親になってこそ</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Vてこそ</div><div class="formula">（＝Vてはじめて）</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「唯有…才…」。強調必須先經歷前項的行動或狀態，後項的結果才會成立，帶有「這樣才算真正…」的語感。常搭配「わかる／言える／〜ものだ」等表示領悟、評價的句子。</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>動詞て形＋こそ</li><li>⚠ 不能用在已經發生的過去事件：<span class='bad'>×親になってこそ母の苦労がわかった</span> → <span class='ok'>○親になってこそ母の苦労がわかる</span></li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">親になっ<u>てこそ</u>、親の苦労や気持ちがわかるものだ。</div><div class="zh">自己當了父母，才能體會父母的辛勞與心情。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">生活費を自分で稼い<u>でこそ</u>、自立していると言える。</div><div class="zh">靠自己賺取生活費，才稱得上是獨立。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d1-2">
+<h3><span class="no">②</span><span class="pt">苦労こそあれ</span><span class="tag hard" title="硬：書面語、較生硬">硬・書面語</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Nこそあれ</div><div class="formula">naでこそあるが</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「雖然有…，但（卻）…」。先承認前項（多半是不好的部分）確實存在，再轉向後項的正面評價或結論。書面、較生硬的說法。（＝〜はあるけれど）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>名詞＋こそあれ</li><li>な形容詞＋でこそあるが</li><li>後句與前項形成對比、轉折</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">苦労<u>こそあれ</u>、介護の仕事はやりがいがある。</div><div class="zh">雖然辛苦，但照護工作很有價值。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">彼の日本語は小さい間違い<u>こそあれ</u>、ほとんど完璧だ。</div><div class="zh">他的日文雖然有些小錯誤，但幾乎可說完美。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d1-3">
+<h3><span class="no">③</span><span class="pt">感謝こそすれ</span><span class="tag hard" title="硬：書面語、較生硬">硬・書面語</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Nこそすれ</div><div class="formula">V（ます形去ます）こそすれ</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「只會…，絕不會…」。前項承認的是事實或感情，後項則強調「絕對不是／不會…」的否定，語氣強烈。書面語。（＝〜はするけれど、絶対に〜ない）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>名詞＋こそすれ</li><li>動詞ます形去掉ます（連用形）＋こそすれ，例：増えこそすれ</li><li>後句為「絕對不…」的否定強調（〜ない／〜ではない）</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">あなたには感謝<u>こそすれ</u>、恨んでなどいません。</div><div class="zh">我對你只有感謝，絕對沒有怨恨。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">白髪はふつう増え<u>こそすれ</u>、減ることはない。</div><div class="zh">白髮通常只會增加，不會變少。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d1-4">
+<h3><span class="no">④</span><span class="pt">見た目こそ悪いが…</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Nこそ〜が…</div><div class="formula">Nこそ〜けれど…</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「N雖然…，但是…」。用「こそ」特別點出某一點（N）確實如此，先承認這點，再用「が／けれど」轉折，帶出另一面。屬於強調用法。（＝悪いのは見た目だけで…）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>名詞＋こそ＋〜が／〜けれど</li><li>前後內容相反，如：外觀差↔味道好、漂亮↔有毒</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">父の料理は見た目<u>こそ</u>悪い<u>が</u>、とてもいい味をしている。</div><div class="zh">爸爸做的菜外表雖然不好看，味道卻非常棒。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">このキノコは色と形<u>こそ</u>きれい<u>だが</u>、毒があって食べることはできない。</div><div class="zh">這種菇的顏色和形狀雖然漂亮，但有毒不能吃。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<nav class="pager"><span></span><a class="nav-btn" href="#d2">二日目 →</a></nav>
+</section>
+<section class="day" id="d2" data-day="2">
+<header class="day-head"><div class="day-badge">二日目</div><div><h2>できるものとして</h2><p class="sub">くらい／ものとして 系列　·　共 4 個句型</p></div></header>
+<ol class="mini-index">
+<li><a href="#d2-1">① そんなことするくらいなら</a></li>
+<li><a href="#d2-2">② 君ぐらいのものだ</a></li>
+<li><a href="#d2-3">③ できるものとして</a></li>
+<li><a href="#d2-4">④ 10月に行うものとする</a></li>
+</ol>
+<article class="card" id="d2-1">
+<h3><span class="no">①</span><span class="pt">そんなことするくらいなら</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Vるくらいなら</div><div class="formula">Vるぐらいなら</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「與其…，不如…」。表示「做那種事實在無法忍受」的強烈厭惡感，因此後句提出較好（或較能接受）的選項。</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>動詞辭書形＋くらいなら（ぐらいなら）</li><li>後句常見：〜ほうがましだ／〜ほうがいい／〜なさい</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">そんなことをする<u>くらいなら</u>、死んだほうがましだ。</div><div class="zh">與其做那種事，我寧可去死。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">友達を傷つける<u>くらいなら</u>、自分が我慢したほうがいい。</div><div class="zh">與其傷害朋友，不如自己忍耐比較好。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d2-2">
+<h3><span class="no">②</span><span class="pt">君ぐらいのものだ</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">（〜のは）Nくらいのものだ</div><div class="formula">（〜のは）Nくらいなものだ</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「只有N（才…）」「頂多就是N」。表示符合條件的只有N，或範圍相當有限。（＝Nしかない）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>名詞＋くらい／ぐらい＋のものだ／なものだ</li><li>常以「〜のは」提示主題，再用此句型限定唯一的對象或範圍</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">彼が仕事を辞めないように説得できるのは、君<u>ぐらいのものだ</u>。</div><div class="zh">能說服他不要辭職的，大概只有你了。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">君が受かるのは、このランクの大学<u>ぐらいのものだ</u>。</div><div class="zh">你能考上的，頂多就是這個等級的大學了。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d2-3">
+<h3><span class="no">③</span><span class="pt">できるものとして</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">V／A／na／N（普通形）＋ものとして</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「當作…、視為…（來處理）」。把某件事先當成既定的前提，在此前提下行動或進行。（＝〜と考えて）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>動詞・い形容詞：普通形</li><li>な形容詞：〜だ → 〜である／〜な</li><li>名詞：〜だ → 〜である</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">中級漢字はできる<u>ものとして</u>、上級漢字のクラスを取った。</div><div class="zh">我當作自己已經會中級漢字，所以選了高級漢字班。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">田中さんはもう来ない<u>ものとして</u>、始めましょう。</div><div class="zh">就當田中先生不會來了，我們開始吧。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d2-4">
+<h3><span class="no">④</span><span class="pt">10月に行うものとする</span><span class="tag hard" title="硬：書面語、較生硬">硬・書面語</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Vるものとする</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「規定…」「視為…」「以…為原則」。多見於契約書、規章等文書用語，表示訂定規則或約定。（＝〜と決める）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>動詞辭書形＋ものとする</li><li>多出現在契約書、規定等正式文件</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">採用試験は、毎年10月に行う<u>ものとする</u>。</div><div class="zh">錄用考試規定於每年10月舉行。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">契約の延長は、双方の同意による<u>ものとする</u>。</div><div class="zh">合約的延長須以雙方同意為準。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<nav class="pager"><a class="nav-btn" href="#d1">← 一日目</a><a class="nav-btn" href="#d3">三日目 →</a></nav>
+</section>
+<section class="day" id="d3" data-day="3">
+<header class="day-head"><div class="day-badge">三日目</div><div><h2>彼のことだから</h2><p class="sub">こと 系列　·　共 4 個句型</p></div></header>
+<ol class="mini-index">
+<li><a href="#d3-1">① 慌てることのないように</a></li>
+<li><a href="#d3-2">② 状況を知ることなしに</a></li>
+<li><a href="#d3-3">③ 彼のことだから</a></li>
+<li><a href="#d3-4">④ この話は聞かなかったことにしてください</a></li>
+</ol>
+<article class="card" id="d3-1">
+<h3><span class="no">①</span><span class="pt">慌てることのないように</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Vることのないよう(に)</div><div class="formula">（＝Vないように）</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「為了不要…／以免…」。表示目的，希望避免某種不好的事態發生，語氣較為鄭重。</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>動詞辭書形＋ことのないよう(に)</li><li>後句接為避免該事態所做的準備、提醒或注意（準備しておこう／注意してください）</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">災害が来ても慌てる<u>ことのないよう</u>、日頃から準備しておこう。</div><div class="zh">為了即使災害來臨也不致慌亂，平時就先做好準備吧。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">今後、このような犯罪と関わる<u>ことのないように</u>注意してください。</div><div class="zh">今後請留意，不要再與這類犯罪扯上關係。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d3-2">
+<h3><span class="no">②</span><span class="pt">状況を知ることなしに</span><span class="tag hard" title="硬：書面語、較生硬">硬・書面語</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Vることなしに(は)</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「沒有…就（無法）…」「不…而…」。表示在不做前項動作的情況下進行後項，後面常接否定或「做不到」的內容。（＝Vないで／Vることなく）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>動詞辭書形＋ことなしに(は)</li><li>後句常為否定或不可能的表達（〜ことはできない、〜ないだろう）</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">今の状況を知る<u>ことなしに</u>、未来を予測することはできない。</div><div class="zh">不了解現在的狀況，就無法預測未來。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">過去の事例を見る<u>ことなしに</u>、解決方法は見えてこないだろう。</div><div class="zh">不去看過去的案例，大概也找不出解決辦法吧。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d3-3">
+<h3><span class="no">③</span><span class="pt">彼のことだから</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">❶ Nのことだから</div><div class="formula">❷ V／A／na／N（普通形）＋ことだから／ことだし</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">❶「因為是（那個人）的話…」：憑對某人（個性、能力）的了解來做推測，後句接推量。<br>❷「既然…」「因為…」：陳述理由，後面接說話者的判斷或提議。「ことだし」是較口語的說法，帶有「還有其他理由」的語氣。</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>❶ 名詞＋の＋ことだから，後句接推測（〜でしょう／〜に違いない）</li><li>❷ 動詞・い形容詞：普通形；な形容詞：〜だ → 〜な／〜である；名詞：〜だ → 〜である</li><li>❷ 可換成「ことだし」（口語）</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><span class="exlabel">❶ 用法</span><div class="jp" lang="ja">よくできる彼<u>のことだから</u>、合格は間違いないでしょう。</div><div class="zh">既然是那麼優秀的他，一定會合格吧。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><span class="exlabel">❷ 用法</span><div class="jp" lang="ja">全員そろった<u>ことだから</u>、時間前だけれど始めましょうか。</div><div class="zh">既然大家都到齊了，雖然還沒到時間，我們開始吧？</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d3-4">
+<h3><span class="no">④</span><span class="pt">この話は聞かなかったことにしてください</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Vた／Aかった／na(だ)／N(だ)＋（という）ことにする</div><div class="formula">Vた／Aかった／na(だ)／N(だ)＋（という）ことになる</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「當作…」「就算是…」。把與事實不同的情況當成事實來處理。「ことにする」是說話者主動這樣處理；「ことになっている」則是（名義上、規定上）被這樣認定。</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>動詞た形、い形容詞過去形（〜かった）</li><li>な形容詞・名詞：〜(だ)</li><li>後面接「（という）ことにする／ことになる」</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">この話は聞かなかった<u>ことにして</u>ください。</div><div class="zh">這件事請當作沒聽到。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">彼は、大学を卒業した<u>ことになっている</u>けれど、実際は中退したらしい。</div><div class="zh">他名義上是大學畢業，但實際上好像是中途輟學。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<nav class="pager"><a class="nav-btn" href="#d2">← 二日目</a><a class="nav-btn" href="#d4">四日目 →</a></nav>
+</section>
+<section class="day" id="d4" data-day="4">
+<header class="day-head"><div class="day-badge">四日目</div><div><h2>私に言わせれば</h2><p class="sub">受身・使役受身・「に言わせれば」　·　共 4 個句型</p></div></header>
+<ol class="mini-index">
+<li><a href="#d4-1">① 問題だとされる</a></li>
+<li><a href="#d4-2">② 学生時代のことが思い出される</a></li>
+<li><a href="#d4-3">③ 感心させられる</a></li>
+<li><a href="#d4-4">④ 私に言わせれば</a></li>
+</ol>
+<article class="card" id="d4-1">
+<h3><span class="no">①</span><span class="pt">問題だとされる</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">V／A／na／N（普通形）＋とされる</div><div class="formula">（N・na 的「だ」可省略）</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「被認為…」「被視為…」。表示一般的看法、見解或定論，並非個人意見。（＝〜と言われる）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>動詞・い形容詞：普通形</li><li>な形容詞・名詞：「だ」可省略（問題(だ)とされる）</li><li>常用「とされている」描述社會的普遍說法</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">この国には、よい指導者がいないのが一番の問題(だ)<u>とされている</u>。</div><div class="zh">這個國家被認為最大的問題就是沒有好的領導者。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">この物質は植物の生長を促進する<u>とされる</u>。</div><div class="zh">這種物質被認為能促進植物的生長。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d4-2">
+<h3><span class="no">②</span><span class="pt">学生時代のことが思い出される</span><span class="tag hard" title="硬：書面語、較生硬">硬・書面語</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">（〜が）Vられる（自発の受身形）</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「不由得…、自然而然就…」。自發的被動：與說話者的意志無關，情感或想法自然而然地產生。常見：考えられる、懐かしく思われる、完成が待たれる、息子の将来が案じられる。</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>以「N＋が」為主語，動詞接自發的「〜(ら)れる」</li><li>多用於思考、感情、記憶類動詞（思い出す→思い出される、悔やむ→悔やまれる、案じる→案じられる）</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">この曲を聴くと、学生時代のことが思い出<u>される</u>。</div><div class="zh">一聽這首曲子，就會不由自主想起學生時代的事。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">彼にひどいことを言ってしまったことが悔や<u>まれる</u>。</div><div class="zh">對他說了過分的話，讓我不禁後悔。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d4-3">
+<h3><span class="no">③</span><span class="pt">感心させられる</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Vさせられる（自発の使役受身形）</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「不由得被…」。使役被動形表示心情、思考被某事物引發，並非自己主動。例：考えさせられる、感じさせられる。（感心させられる＝感心している）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>動詞的使役被動形（〜させられる／五段動詞可縮為〜される）</li><li>多為表示心理、感受的動詞（感心する、考える、感じる、悩む）</li><li>引發的原因用「Nに／には」表示</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">彼の仕事ぶりには感心<u>させられる</u>。</div><div class="zh">他的工作表現讓人不得不佩服。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">隣の家の騒音に悩<u>まされている</u>。</div><div class="zh">被隔壁的噪音所困擾。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d4-4">
+<h3><span class="no">④</span><span class="pt">私に言わせれば</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Nに言わせれば</div><div class="formula">Nから言わせれば</div><div class="formula">（N＝人）</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「依N來說」「讓N說的話」。帶出此人獨特、或不同於一般的看法與意見。（＝私の意見では）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>人物名詞（私、うちの親、専門家など）＋に／から言わせれば</li><li>後句為該人的意見、評價</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">彼は天才と言われているが、<u>私に言わせれば</u>、単なる努力家だ。</div><div class="zh">大家都說他是天才，但依我看，他只是個努力的人。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">「もう私も60歳を過ぎて、年をとりましたよ。」「いえ、<u>うちの親に言わせれば</u>、まだまだ若そうですよ。」</div><div class="zh">「我也已經過了60歲，老了呀。」「哪裡，照我父母的說法，您看起來還很年輕呢。」</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<nav class="pager"><a class="nav-btn" href="#d3">← 三日目</a><a class="nav-btn" href="#d5">五日目 →</a></nav>
+</section>
+<section class="day" id="d5" data-day="5">
+<header class="day-head"><div class="day-badge">五日目</div><div><h2>難しいとみると…</h2><p class="sub">「と」＋みる／みえる／する 系列　·　共 4 個句型</p></div></header>
+<ol class="mini-index">
+<li><a href="#d5-1">① 忙しいとみえて</a></li>
+<li><a href="#d5-2">② 大きい地震が来るとみられる</a></li>
+<li><a href="#d5-3">③ 難しいとみると</a></li>
+<li><a href="#d5-4">④ 歩いて行くとすれば</a></li>
+</ol>
+<article class="card" id="d5-1">
+<h3><span class="no">①</span><span class="pt">忙しいとみえて</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">V／A／na／N（普通形）＋とみえて</div><div class="formula">V／A／na／N（普通形）＋とみえる</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「看來…」「似乎…」。根據外觀或狀況所做的推測，用「とみえて」帶出後面的結果或情況。（＝〜ようで／〜ようだ）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>普通形＋と＋みえて／みえる</li><li>とみえて：後面接依據該推測所呈現的狀況</li><li>とみえる：放在句尾表示推測</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">田中さんは忙しい<u>とみえて</u>、このごろ電話もしてこない。</div><div class="zh">田中先生看來很忙，最近都沒打電話來。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">それを聞いて、彼はしばらく声を出さなかった。かなり驚いた<u>とみえる</u>。</div><div class="zh">聽到這件事，他好一陣子都沒出聲，看來相當吃驚。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d5-2">
+<h3><span class="no">②</span><span class="pt">大きい地震が来るとみられる</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">V／A／na／N（普通形）＋とみられる</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「被認為…」「看來會…」。依據情況所做的客觀判斷或推測，表示一般認為如此，偏書面、報導的語氣。（＝〜と考えられる／〜と思われる）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>普通形＋とみられる</li><li>常以「とみられている」的形式出現</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">この地域では、今後も大きい地震が来る<u>とみられている</u>。</div><div class="zh">這個地區今後仍被認為會有大地震發生。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">その会社の再建は難しい<u>とみられる</u>。</div><div class="zh">那間公司的重整被認為相當困難。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d5-3">
+<h3><span class="no">③</span><span class="pt">難しいとみると</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">V／A／na／N（普通形）＋とみると</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「一旦判斷／認定…，就…」。以「發現、判定某狀況」為契機，緊接著採取行動或出現反應。（＝〜と思うと／〜とわかると）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>普通形＋とみると</li><li>後句多為隨之而來的行動或反應</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">彼は問題がちょっと難しい<u>とみると</u>、自分で考えないで人に聞く。</div><div class="zh">他一覺得題目有點難，就不自己想而去問別人。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">彼は、店員が韓国人だ<u>とみると</u>、必ず韓国語で話しかける。</div><div class="zh">他一認定店員是韓國人，就一定用韓語搭話。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d5-4">
+<h3><span class="no">④</span><span class="pt">歩いて行くとすれば</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">V／A／na／N（普通形）＋とすれば</div><div class="formula">V／A／na／N（普通形）＋とすると</div><div class="formula">（＝〜としたら）</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「假如…的話」。以假設的情況為前提，推測或討論其結果。（＝もし〜としたら）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>普通形＋とすれば／とすると</li><li>後句接推測、判斷（〜だろう、大変だ 等）</li><li>可與「もし」搭配使用</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">そこまで歩いて行く<u>とすれば</u>、30分くらいかかるだろう。</div><div class="zh">如果要走路到那裡的話，大概要花30分鐘吧。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">その話が本当だ<u>とすると</u>、大変なことだ。</div><div class="zh">如果那件事是真的，那就糟了。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<nav class="pager"><a class="nav-btn" href="#d4">← 四日目</a><a class="nav-btn" href="#d6">六日目 →</a></nav>
+</section>
+<section class="day" id="d6" data-day="6">
+<header class="day-head"><div class="day-badge">六日目</div><div><h2>何回読んだところで…</h2><p class="sub">ところ 系列　·　共 4 個句型</p></div></header>
+<ol class="mini-index">
+<li><a href="#d6-1">① 危ないところを</a></li>
+<li><a href="#d6-2">② 2、3時間というところだ</a></li>
+<li><a href="#d6-3">③ 何回読んだところで</a></li>
+<li><a href="#d6-4">④ 忘れようとしたところで</a></li>
+</ol>
+<article class="card" id="d6-1">
+<h3><span class="no">①</span><span class="pt">危ないところを</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">V／A（普通形）＋ところを</div><div class="formula">naな／Nの＋ところを</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「在…的時候（卻）…」。表示某種處境或場面，緊接著發生與之相關的事（被救、致歉、道謝等）。常見：危ないところを助けてもらった、お忙しいところを〜。</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>動詞・い形容詞：普通形</li><li>な形容詞：な／名詞：の</li><li>後面接針對該狀況所做的行為或感受（助けてもらった／申し訳ありません）</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">交通事故で命が危ない<u>ところを</u>、その医者に助けてもらった。</div><div class="zh">因車禍而性命垂危之際，被那位醫生救了。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">すぐにお礼の電話をしなければいけない<u>ところを</u>今になってしまい、申し訳ありません。</div><div class="zh">明明應該馬上打電話道謝，卻拖到現在，真的很抱歉。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d6-2">
+<h3><span class="no">②</span><span class="pt">2、3時間というところだ</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">N／［文］＋というところだ</div><div class="formula">N／［文］＋といったところだ</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「大概就是…」「頂多…」。表示大致的程度、範圍。（＝だいたい…ぐらいだ）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>名詞＋というところだ／といったところだ（N多為數量）</li><li>也可接句子（文），如：見直せばいい＋といったところです</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">勉強時間は2、3時間<u>というところだ</u>。</div><div class="zh">讀書時間大概就是兩、三個小時。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">「例の書類はできましたか。」「はい、あとはもう一度見直せばいい<u>といったところです</u>。」</div><div class="zh">「那份文件完成了嗎？」「是的，現在大致上就剩再檢查一遍而已。」</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d6-3">
+<h3><span class="no">③</span><span class="pt">何回読んだところで</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">Vたところで…ない</div><div class="formula">いくらVたところで／どんなにVたところで</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「即使…也（沒有用／不會…）」。就算做了前項動作，也得不到期望的結果；後句多為不好的結果或狀態持續。（＝たとえ…ても）</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>動詞た形＋ところで</li><li>常與「いくら／どんなに／何回」等搭配</li><li>後句多為否定、徒勞的內容（〜ない）</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">何回読ん<u>だところで</u>、意味は全くわからない。</div><div class="zh">不管讀幾遍，意思還是完全看不懂。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">そんな多額の借金は、家を売っ<u>たところで</u>、到底返せない。</div><div class="zh">那麼龐大的債務，就算把房子賣了也根本還不起。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<article class="card" id="d6-4">
+<h3><span class="no">④</span><span class="pt">忘れようとしたところで</span></h3>
+<div class="rows">
+<div class="row"><div class="lab">文法結構</div><div class="val"><div class="formula">V／A／na／N（普通形）＋としたところで</div><div class="formula">V／A／na／N（普通形）＋としたって（口語）</div></div></div>
+<div class="row"><div class="lab">中文意思<br><small>情境・語感</small></div><div class="val">「即使…」「就算…」。（＝としても）假設某種情形，結果也不會改變。用法與「たところで」相近，但前面可接各詞類的普通形；「としたって」較口語。</div></div>
+<div class="row"><div class="lab">接續要點<br><small>詞性</small></div><div class="val"><ul><li>普通形＋としたところで／としたって</li><li>後句多為否定、無法期待的結果</li></ul></div></div>
+</div>
+<div class="exs"><div class="exs-title">例句</div>
+<div class="ex"><div class="exn">1</div><div class="exb"><div class="jp" lang="ja">これは忘れよう<u>としたところで</u>、忘れられない出来事だ。</div><div class="zh">這是就算想忘也忘不掉的事件。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+<div class="ex"><div class="exn">2</div><div class="exb"><div class="jp" lang="ja">今から急いだ<u>としたって</u>間に合わないだろう。</div><div class="zh">就算現在才趕，也來不及了吧。</div></div><button class="spk" type="button" aria-label="朗讀例句" title="朗讀例句"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+</div></article>
+<nav class="pager"><a class="nav-btn" href="#d5">← 五日目</a><span></span></nav>
+</section>
+  <p class="foot">整理自《新日檢完勝對策 N1 文法》第1週（1日目〜6日目）。例句中的底線為該日文法句型；「硬」表示偏書面、較生硬的表現。</p>
+</div>
+<script>
+(function(){
+  var days=document.querySelectorAll('.day'), tabs=document.querySelectorAll('.tab');
+  function show(){
+    var m=(location.hash||'').match(/^#d([1-6])(?:-\d)?$/);
+    var n=m?m[1]:'1';
+    days.forEach(function(d){d.classList.toggle('show',d.dataset.day===n)});
+    tabs.forEach(function(t){t.classList.toggle('on',t.dataset.tab===n)});
+    document.title='新日檢完勝N1文法 第一週｜'+n+'日目';
+    stop();
+  }
+  window.addEventListener('hashchange',function(e){
+    var wasCard=/^#d[1-6]-\d$/.test(location.hash);
+    show();
+    if(!wasCard) window.scrollTo(0,0);
+    else { var el=document.getElementById(location.hash.slice(1)); if(el) el.scrollIntoView(); }
+  });
+  show();
+  if(/^#d[1-6]-\d$/.test(location.hash)){var el=document.getElementById(location.hash.slice(1)); if(el) el.scrollIntoView();}
+
+  var rate=1, current=null, synth=window.speechSynthesis;
+  document.querySelectorAll('.speed button').forEach(function(b){
+    b.addEventListener('click',function(){
+      rate=parseFloat(b.dataset.rate);
+      document.querySelectorAll('.speed button').forEach(function(x){x.classList.toggle('on',x===b)});
+    });
+  });
+  function stop(){ if(synth) synth.cancel(); if(current){current.classList.remove('playing'); current=null;} }
+  function jaVoice(){
+    var vs=synth.getVoices()||[];
+    return vs.find(function(v){return v.lang==='ja-JP'})||vs.find(function(v){return /^ja/i.test(v.lang)})||null;
+  }
+  document.querySelectorAll('.spk').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var notice=document.getElementById('notice');
+      if(!synth){notice.style.display='block';return;}
+      if(current===btn){stop();return;}
+      stop();
+      var text=btn.closest('.ex').querySelector('.jp').textContent.replace(/[「」]/g,' ');
+      var u=new SpeechSynthesisUtterance(text);
+      u.lang='ja-JP'; u.rate=rate;
+      var v=jaVoice(); if(v) u.voice=v;
+      else if((synth.getVoices()||[]).length) notice.style.display='block';
+      u.onend=u.onerror=function(){btn.classList.remove('playing'); if(current===btn) current=null;};
+      current=btn; btn.classList.add('playing');
+      synth.speak(u);
+    });
+  });
+  if(synth && synth.onvoiceschanged!==undefined){ synth.onvoiceschanged=function(){}; }
+})();
+</script>
+</body>
+</html>
